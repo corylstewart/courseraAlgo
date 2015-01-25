@@ -16,6 +16,8 @@ def top_k(a, k):
            pass
         elif a[j] < center:
             left.append(a[j])
+        elif a[j] == center:
+            k -= 1
         else:
             right.append(a[j])
     if len(right) == k:
