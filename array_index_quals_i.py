@@ -61,14 +61,17 @@ def other_way(a):
     front = True
     back = True
     i = 0
-    while i < len(a) and (front or back):
+    while i < len(a) and front:
         if a[i] > i:
             front = False
-        if a[-i-1] < -i-1:
-            back = False
         if a[i] == i:
             print i, 'other'
             return True
+        i += 1
+    i = 0
+    while i < len(a) and (front or back):
+        if a[-i-1] < -i-1:
+            back = False
         if a[-i-1] == -i-1:
             print -i-1, 'other'
             return True
@@ -85,14 +88,14 @@ maybe = 0
 
 
 for i in range(10000):
-    a = [random.randint(-10000000, 10000000) for x in range(5000)]
+    a = [random.randint(-100000, 100000) for x in range(50)]
     a = set(a)
     a = list(a)
     a.sort()
 
-    start = time.time()
-    x = does_index_match(a)
-    fast += time.time() - start
+    #start = time.time()
+    #x = does_index_match(a)
+    #fast += time.time() - start
     start = time.time()
     y =  brute_force(a)
     slow += time.time() - start
