@@ -48,7 +48,7 @@ def does_index_match(a):
     return i_equals_index(a) or i_equals_negative_index(a)
 
 def brute_force(a):
-    for i in range(len(a)):
+    for i in xrange(len(a)):
         if i == a[i]:
             print i, 'brute'
             return True
@@ -82,6 +82,7 @@ maybe = 0
 
 
 for i in range(10000):
+    start = time.time()
     if i%100 == 0:
         print i
     low = random.randint(-1000000, 1000000)
@@ -92,6 +93,7 @@ for i in range(10000):
     a = set(a)
     a = list(a)
     a.sort()
+    fast += time.time() - start
 
     #start = time.time()
     #x = does_index_match(a)
