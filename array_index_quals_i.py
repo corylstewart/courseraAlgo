@@ -61,6 +61,8 @@ print does_index_match(b)
 
 for i in range(1000):
     a = [random.randint(-100, 100) for x in range(50)]
+    a = set(a)
+    a = list(a)
     a.sort()
     y =  brute_force(a)
     if y:
