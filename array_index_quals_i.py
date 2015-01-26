@@ -68,14 +68,15 @@ def other_way(a):
             print i, 'other'
             return True
         i += 1
-    i = 0
-    while i < len(a) and (front or back):
-        if a[-i-1] < -i-1:
-            back = False
-        if a[-i-1] == -i-1:
-            print -i-1, 'other'
-            return True
-        i += 1
+    if front:
+        i = 0
+        while i < len(a) and back:
+            if a[-i-1] < -i-1:
+                back = False
+            if a[-i-1] == -i-1:
+                print -i-1, 'other'
+                return True
+            i += 1
     return False
 
 
