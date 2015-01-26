@@ -58,25 +58,18 @@ def brute_force(a):
     return False
 
 def other_way(a):
-    front = True
-    back = True
-    i = 0
-    while i < len(a) and front:
+    for i in xrange(len(a)):
         if a[i] > i:
-            front = False
+            break
         if a[i] == i:
             print i, 'other'
             return True
-        i += 1
-    if front:
-        i = 0
-        while i < len(a) and back:
-            if a[-i-1] < -i-1:
-                back = False
-            if a[-i-1] == -i-1:
-                print -i-1, 'other'
-                return True
-            i += 1
+    for i in xrange(len(a)):
+        if a[-i-1] < -i-1:
+            break
+        if a[-i-1] == -i-1:
+            print -i-1, 'other'
+            return True
     return False
 
 
@@ -89,7 +82,13 @@ maybe = 0
 
 
 for i in range(10000):
-    a = [random.randint(-100000, 100000) for x in range(50)]
+    if i%100 == 0:
+        print i
+    low = random.randint(-1000000, 1000000)
+    high = random.randint(-1000000, 1000000)
+    if high < low:
+        low, high = high, low
+    a = [random.randint(low, high) for x in range(5000)]
     a = set(a)
     a = list(a)
     a.sort()
