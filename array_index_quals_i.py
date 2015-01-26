@@ -52,7 +52,7 @@ def brute_force(a):
         if i == a[i]:
             print i, 'brute'
             return True
-        if i != len(a) and -i-1 == a[-i-1]:
+        elif i != len(a) and -i-1 == a[-i-1]:
             print -i-1, 'brute'
             return True
     return False
@@ -61,13 +61,13 @@ def other_way(a):
     for i in xrange(len(a)):
         if a[i] > i:
             break
-        if a[i] == i:
+        elif a[i] == i:
             print i, 'other'
             return True
     for i in xrange(len(a)):
         if a[-i-1] < -i-1:
             break
-        if a[-i-1] == -i-1:
+        elif a[-i-1] == -i-1:
             print -i-1, 'other'
             return True
     return False
