@@ -1,6 +1,6 @@
 import random
 
-a = [3,7,4,66,8,6,6,2,6,43,-99,1,1,1]
+a = [5,1,8,6,7,10,9,4,2,3,99,20]
 
 def quick_sort(a):
     if len(a) < 2:
@@ -36,4 +36,101 @@ def quick_sort_in_place(a):
             repeats += 1
             i += 1
         j += 1
-    return quick_sort_in_place(a[repeats:i]) + a[:repeats] + quick_sort_in_place(a[i:]) 
+    return quick_sort_in_place(a[repeats:i]) + a[:repeats] + quick_sort_in_place(a[i:])
+
+
+def quick_sort_first_element(a, left, right):
+    count = 0
+    if right - left < 2:
+        return 0
+    else:
+        i = partition(a, left, right)
+        count = right - left - 1
+        left_count = quick_sort_first_element(a, left, i)
+        right_count = quick_sort_first_element(a, i+1, right)
+        return count + left_count + right_count
+
+def partition(a, left, right):
+    pivot = a[left]
+    i = left + 1
+    for j in range(i,right):
+        if a[j] < pivot:
+            a[i], a[j] = a[j], a[i]
+            i += 1
+    a[left], a[i-1] = a[i-1], a[left]
+    return i - 1
+
+def quick_sort_last_element(a, left, right):
+    count = 0
+    if right - left < 2:
+        return 0
+    else:
+        a[left], a[right-1] = a[right-1], a[left]
+        i = partition(a, left, right)
+        count = right - left - 1
+        left_count = quick_sort_last_element(a, left, i)
+        right_count = quick_sort_last_element(a, i+1, right)
+        return count + left_count + right_count
+
+def quick_sort_middle_element(a, left, right):
+    count = 0
+    if right - left < 2:
+        return 0
+    else:
+        median = make_median(a, left, right)
+        a[left], a[median] = a[median], a[left]
+        i = partition(a, left, right)
+        count = right - left - 1
+        left_count = quick_sort_middle_element(a, left, i)
+        right_count = quick_sort_middle_element(a, i+1, right)
+        return count + left_count + right_count
+
+def make_median(a, left, right):
+    first = a[left]
+    middle = a[(left+right-1)/2]
+    last = a[right-1]
+    if right - left == 2:
+        return left
+    if (first < middle and first > last) or (first > middle and first < last):
+        return left
+    elif (middle < first and middle > last) or (middle > first and middle < last):
+        return (left+right-1)/2
+    else:
+        return right - 1
+
+def is_sorted(a):
+    for i in range(len(a)-1):
+        if a[i] > a[i+1]:
+            return 'Not Sorted'
+        return 'Is Sorted'
+
+'''
+print quick_sort_middle_element(a,0,len(a))
+
+
+a = list()
+with open('QuickSort.txt') as f:
+    for line in f.readlines():
+        a.append(int(line))
+
+print quick_sort_first_element(a,0,len(a))
+
+print is_sorted(a)
+
+a = list()
+with open('QuickSort.txt') as f:
+    for line in f.readlines():
+        a.append(int(line))
+
+print quick_sort_last_element(a,0,len(a))
+
+print is_sorted(a)
+
+a = list()
+with open('QuickSort.txt') as f:
+    for line in f.readlines():
+        a.append(int(line))
+
+print quick_sort_middle_element(a,0,len(a))
+
+print is_sorted(a)'''
