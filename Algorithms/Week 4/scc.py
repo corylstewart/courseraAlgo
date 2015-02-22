@@ -1,4 +1,10 @@
-edges = [(1,7), (7,4), (4,1), (7,9), (9,6), (6,3), (3,9), (6,8), (8,2), (2,5), (5,8)]
+import sys
+sys.setrecursionlimit(10**6)
+
+#import resource
+#resource.setrlimit(resource.RLIMIT_STACK, (2**29,-1))
+
+edges = [(1,7), (7,4), (4,1), (7,9), (9,6), (6,3), (3,9), (6,8), (8,2), (2,5), (5,8), (5,10)]
 G = dict()
 G_rev = dict()
 for edge in edges:
@@ -33,15 +39,19 @@ def make_big_G():
 
     return G, G_rev
 
-#G, G_rev = make_big_G()
-def make_ordering(G_rev, start_node, seen, new_ordering, count):
+G, G_rev = make_big_G()
+def make_ordering(G_rev, start_node, seen, new_ordering, count, depth=0):
+    #print depth, start_node, start_node in seen
+    depth += 1
     seen.append(start_node)
-    for node2 in G_rev[start_node]:
-        if node2 not in seen:
-            count = make_ordering(G_rev, node2, seen, new_ordering, count)
+    if start_node in G_rev:
+        for node2 in G_rev[start_node]:
+            if node2 not in seen:
+                count = make_ordering(G_rev, node2, seen, new_ordering, count, depth)
     new_ordering[count] = start_node
     count += 1
     return count
+
 
 
 def rev_G(G_rev):
@@ -52,30 +62,54 @@ def rev_G(G_rev):
     count = 1
     for node in k:
         if node not in seen:
+            #print node, new_ordering
+            #raw_input()
             count = make_ordering(G_rev, node, seen, new_ordering, count)
     return new_ordering
 
 def straight_G(G, start_node, seen, scc_cluster, parent):
-    seen.append(start_node)
-    print start_node
-    for node2 in G[start_node]:
-        raw_input()
-        if node2 not in seen:
-            straight_G(G, node2, seen, scc_cluster, parent)
-    scc_cluster[node2] = parent
-    print scc_cluster
+    if start_node not in seen:
+        seen.append(start_node)
+        if start_node in G:
+            scc_cluster[start_node] = parent
+            #print scc_cluster
+            #print start_node, seen
+            for node2 in G[start_node]:
+                #raw_input()
+                if node2 not in seen:
+                    straight_G(G, node2, seen, scc_cluster, parent)
 
-def scc(G, G_rev):
-    new_ordering = rev_G(G_rev)
+def scc(G, G_rev, new_ordering):
+    #print new_ordering
     seen = []
     scc_cluster = dict()
     k = new_ordering.keys()
     k.sort(reverse=True)
-    print k
+    #print k
     for node in k:
         straight_G(G, new_ordering[node], seen, scc_cluster, new_ordering[node])
-    print scc_cluster
+    return scc_cluster
 
+def make_scc_in_order(G, G_rev):
+    new_ordering = rev_G(G_rev)
+    print 'made new ordering'
+    raw_input()
+    my_scc = scc(G, G_rev, new_ordering)
+    print 'done with my scc'
+    scc_dict = dict()
+    for node in my_scc:
+        if my_scc[node] not in scc_dict:
+            scc_dict[my_scc[node]] = list()
+        scc_dict[my_scc[node]].append(node)
+    len_list = list()
+    for key in scc_dict:
+        l = len(scc_dict[key])
+        len_list.append((l, key))
+    len_list.sort(reverse=True)
+    return len_list[:10]
 
-
-scc(G, G_rev)
+print 'made it'
+#l = make_scc_in_order(G, G_rev)
+#for t in l[:10]:
+#    print t
+print len(G)
