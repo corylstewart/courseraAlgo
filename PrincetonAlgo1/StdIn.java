@@ -1,15 +1,52 @@
+/*************************************************************************
+ *  Compilation:  javac StdIn.java
+ *  Execution:    java StdIn   (interactive test of basic functionality)
+ *
+ *  Reads in data of various types from standard input.
+ *
+ *************************************************************************/
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+/**
+ *  The <tt>StdIn</tt> class provides static methods for reading strings
+ *  and numbers from standard input. See 
+ *  <a href="http://introcs.cs.princeton.edu/15inout">Section 1.5</a> of
+ *  <i>Introduction to Programming in Java: An Interdisciplinary Approach</i>
+ *  by Robert Sedgewick and Kevin Wayne.
+ *  <p>
+ *  For uniformity across platforms, this class uses <tt>Locale.US</tt>
+ *  for the locale and <tt>"UTF-8"</tt> for the character-set encoding.
+ *  The English language locale is consistent with the formatting conventions
+ *  for Java floating-point literals, command-line arguments
+ *  (via {@link Double#parseDouble(String)}) and standard output.
+ *  <p>
+ *  Like {@link Scanner}, reading a <em>token</em> also consumes preceding Java
+ *  whitespace; reading a line consumes the following end-of-line
+ *  delimeter; reading a character consumes nothing extra. 
+ *  <p>
+ *  Whitespace is defined in {@link Character#isWhitespace(char)}. Newlines
+ *  consist of \n, \r, \r\n, and Unicode hex code points 0x2028, 0x2029, 0x0085;
+ *  see <tt><a href="http://www.docjar.com/html/api/java/util/Scanner.java.html">
+ *  Scanner.java</a></tt> (NB: Java 6u23 and earlier uses only \r, \r, \r\n).
+ *  <p>
+ *  See {@link In} for a version that handles input from files, URLs,
+ *  and sockets.
+ *  <p>
+ *  Note that Java's UTF-8 encoding does not recognize the optional byte-order
+ *  mask. If the input begins with the optional byte-order mask, <tt>StdIn</tt>
+ *  will have an extra character <tt>uFEFF</tt> at the beginning.
+ *  For details, see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4508058.
+ *
+ *  @author David Pritchard
+ *  @author Robert Sedgewick
+ *  @author Kevin Wayne
+ */
 public final class StdIn {
-
-    // it doesn't make sense to instantiate this class
-    private StdIn() { }
-
-    private static Scanner scanner;
 
     /*** begin: section (1 of 2) of code duplicated from In to StdIn */
 
@@ -31,12 +68,17 @@ public final class StdIn {
 
     /*** end: section (1 of 2) of code duplicated from In to StdIn */
 
+    private static Scanner scanner;
+
+    // it doesn't make sense to instantiate this class
+    private StdIn() { }
+
     /*** begin: section (2 of 2) of code duplicated from In to StdIn,
      *  with all methods changed from "public" to "public static" ***/
 
     /**
      * Is the input empty (except possibly for whitespace)? Use this
-     * to know whether the next call to {@link #readString()},
+     * to know whether the next call to {@link #readString()}, 
      * {@link #readDouble()}, etc will succeed.
      * @return true if standard input is empty (except possibly
      *     for whitespae), and false otherwise
@@ -56,7 +98,7 @@ public final class StdIn {
     }
 
     /**
-     * Is the input empty (including whitespace)? Use this to know
+     * Is the input empty (including whitespace)? Use this to know 
      * whether the next call to {@link #readChar()} will succeed.
      * <p>Functionally equivalent to {@link #hasNextLine()}.
      * @return true if standard input is empty, and false otherwise
@@ -326,4 +368,3 @@ public final class StdIn {
     }
 
 }
-
